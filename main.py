@@ -29,7 +29,7 @@ user_tasks = {}
 GATES = [
     "https://riversidefoxfoundation.org/donations/encore/",
     "https://animalcaretrust.org.uk/donations/please-help-bella",
-    "https://arukahhouse.net/donate/"
+    "https://arukahhouse.net/donate/"،
 ]
 gate_index = 0
 api_semaphore = asyncio.Semaphore(6)
