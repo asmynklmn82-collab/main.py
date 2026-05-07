@@ -29,7 +29,7 @@ user_tasks = {}
 GATES = [
     "https://riversidefoxfoundation.org/donations/encore/",
     "https://animalcaretrust.org.uk/donations/please-help-bella",
-    "https://arukahhouse.net/donate/"،
+    "https://arukahhouse.net/donate/",
     "https://dandelionsmontessori.org/give/15767517?giveDonationFormInIframe=1",
 ]
 gate_index = 0
