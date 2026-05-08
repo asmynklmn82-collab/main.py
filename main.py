@@ -30,6 +30,7 @@ GATES = [
     "https://animalcaretrust.org.uk/donations/please-help-bella",
     "https://riversidefoxfoundation.org/donations/encore/",
     "https://arukahhouse.net/donate/",
+    "https://riversidefoxfoundation.org/donations/preview",
 ]
 gate_index = 0
 api_semaphore = asyncio.Semaphore(6)
