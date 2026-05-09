@@ -28,7 +28,7 @@ user_tasks = {}
 
 GATES = [
     "https://riversidefoxfoundation.org/donations/preview",
-    "https://dandelionsmontessori.org/give/15767517?giveDonationFormInIframe=1"
+    "https://animalcaretrust.org.uk/donations/please-help-bella"
 ]
 gate_index = 0
 api_semaphore = asyncio.Semaphore(6)
