@@ -31,6 +31,7 @@ GATES = [
     "https://riversidefoxfoundation.org/donations/encore/",
     "https://arukahhouse.net/donate/",
     "https://riversidefoxfoundation.org/donations/preview",
+    "https://dandelionsmontessori.org/give/15767517?giveDonationFormInIframe=1",
 ]
 gate_index = 0
 api_semaphore = asyncio.Semaphore(6)
