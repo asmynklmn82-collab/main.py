@@ -415,8 +415,11 @@ async def handle_single_url(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     elif result['status'] in ['error', 'dead']:
         await send_premium_sticker(update, context, result['status'])
     
-    response_text = format_telegram_message(result)
-    await msg.edit_text(response_text, disable_web_page_preview=True)
+    if result['status'] == 'working':
+        response_text = format_telegram_message(result)
+        await msg.edit_text(response_text, disable_web_page_preview=True)
+    else:
+        await msg.edit_text(f"Check Complete. Status: {result['status']}")
     
     if result.get('status') == 'working' and result.get('full_token'):
         await update.message.reply_text(f"Full Access Token:\n```\n{result['full_token']}\n```", parse_mode='Markdown')
@@ -458,8 +461,9 @@ async def handle_bulk_urls(update: Update, context: ContextTypes.DEFAULT_TYPE) -
             elif result['status'] == 'dead':
                 dead_count += 1
             
-            result_text = format_telegram_message(result, i, total)
-            await update.message.reply_text(result_text, disable_web_page_preview=True)
+            if result['status'] == 'working':
+                result_text = format_telegram_message(result, i, total)
+                await update.message.reply_text(result_text, disable_web_page_preview=True)
             
             if result.get('status') == 'working' and result.get('full_token'):
                 await update.message.reply_text(
@@ -556,7 +560,7 @@ async def handle_file_upload(update: Update, context: ContextTypes.DEFAULT_TYPE)
                 elif result['status'] == 'dead':
                     dead_count += 1
                 
-                if result['status'] in ['working', 'error']:
+                if result['status'] == 'working':
                     result_text = format_telegram_message(result, i, total)
                     await update.message.reply_text(result_text, disable_web_page_preview=True)
                 
