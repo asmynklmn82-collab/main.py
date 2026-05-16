@@ -360,8 +360,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             else:
                 await query.message.delete()
                 for chunk in [content[i:i+4000] for i in range(0, len(content), 4000)]:
-                    # تم تصحيح الخطأ البرمجي في السطر التالي مباشرة
-                    await context.bot.send_message(chat_id=user_id, text=f"```\n{chunk}\n```", parse_mode='Markdown')
+                    await context.bot.send_message(chat_id=user_id, text=f"```\n{chunk}\n
+```", parse_mode='Markdown')
         except FileNotFoundError:
             await query.edit_message_text("Working links file does not exist yet.")
         return ConversationHandler.END
@@ -425,9 +425,9 @@ async def handle_single_url(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     else:
         await msg.edit_text(f"Check Complete. Status: {result['status']}\nReason: {result.get('reason', 'Unknown')}")
     
+    # تم تصحيح قفل السطر هنا بالأسفل مباشرة
     if result.get('status') == 'working' and result.get('full_token'):
-        await update.message.reply_text(f"Full Access Token:\n```\n{result['full_token']}\n
-```", parse_mode='Markdown')
+        await update.message.reply_text(f"Full Access Token:\n```\n{result['full_token']}\n```", parse_mode='Markdown')
     
     return ConversationHandler.END
 
@@ -472,7 +472,8 @@ async def handle_bulk_urls(update: Update, context: ContextTypes.DEFAULT_TYPE) -
             
             if result.get('status') == 'working' and result.get('full_token'):
                 await update.message.reply_text(
-                    f"Full Token for link {i}:\n```\n{result['full_token']}\n```",
+                    f"Full Token for link {i}:\n```\n{result['full_token']}\n
+```",
                     parse_mode='Markdown'
                 )
             
@@ -571,8 +572,7 @@ async def handle_file_upload(update: Update, context: ContextTypes.DEFAULT_TYPE)
                 
                 if result.get('status') == 'working' and result.get('full_token'):
                     await update.message.reply_text(
-                        f"Full Token for link {i}:\n```\n{result['full_token']}\n
-```",
+                        f"Full Token for link {i}:\n```\n{result['full_token']}\n```",
                         parse_mode='Markdown'
                     )
                 
