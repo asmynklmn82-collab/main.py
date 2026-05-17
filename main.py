@@ -515,18 +515,22 @@ async def handle_file_upload(update: Update, context: ContextTypes.DEFAULT_TYPE)
     
     try:
         file = await update.message.document.get_file()
-        file_content = await file.download_as_bytearray()
+        temp_file_path = f"/tmp/{file.file_id}_{update.message.document.file_name}"
+        await file.download_to_drive(temp_file_path)
+
+        extracted_urls = []
+        seen_urls = set()
         
-        for encoding in ['utf-8', 'latin-1', 'cp1256', 'iso-8859-1']:
-            try:
-                text_content = file_content.decode(encoding)
-                break
-            except UnicodeDecodeError:
-                continue
-        else:
-            text_content = file_content.decode('utf-8', errors='ignore')
+        # Read file line by line to avoid memory issues with large files
+        with open(temp_file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            for line in f:
+                urls_in_line = smart_link_extractor(line)
+                for url in urls_in_line:
+                    if url not in seen_urls:
+                        seen_urls.add(url)
+                        extracted_urls.append(url)
         
-        extracted_urls = smart_link_extractor(text_content)
+        os.remove(temp_file_path) # Clean up the temporary file
         
         if not extracted_urls:
             await msg.edit_text("No valid URLs found in the file.")
@@ -577,8 +581,7 @@ async def handle_file_upload(update: Update, context: ContextTypes.DEFAULT_TYPE)
                         f"Error: {error_count} | Dead: {dead_count}"
                     )
                 
-                if i < total:
-                    time.sleep(0.3)
+
                     
             except Exception as e:
                 logger.error(f"Error checking URL {url}: {e}")
